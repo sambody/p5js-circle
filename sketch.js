@@ -1,7 +1,6 @@
 // TODO make line appear and disappear, without moving
 // TODO make lines animate/rotate around root point
 // TODO use Space to freeze X and Y, V to toggle variables
-// TODO key up/down to add rounds
 // TODO key numbers for color themes
 
 
@@ -181,7 +180,7 @@ function showVariables() {
     varText += `Press R to toggle randomness (noise)\n`;
     varText += `Press D to toggle dark mode\n`;
     varText += `Press C to toggle the small circles\n`;
-    varText += `Press arrow up/down to change line thickness\n`;
+    varText += `Press arrow up/down to change count\n`;
     varText += `Press X to toggle mouse X interaction (line rotations)\n`;
     varText += `Press Y to toggle mouse Y interaction (line length)\n`;
     varText += `Press a number to change color theme\n`;
