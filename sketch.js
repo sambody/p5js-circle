@@ -1,10 +1,12 @@
 // TODO make line appear and disappear, without moving
-// TODO make lines animation, move in a circular motion
+// TODO make lines animate/rotate around root point
 // TODO use Space to freeze X and Y, V to toggle variables
-// TODO use git
+// TODO key up/down to add rounds
+// TODO key numbers for color themes
+
 
 // Set variables:
-// Number of line rotations per round (when mouseX not interactive); Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
+// Number of line rotations per round (when mouseX not interactive). Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
 let lineRotations = 5;
 // Number of rounds (full circle); adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to close)
 let rounds = 1;
@@ -79,8 +81,6 @@ function draw() {
             // Version 2: moving last line, creating continuous waves/leafs
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
-
-        // TODO key up/down to add rounds
     }
     if (isInteractiveY) {
         lineLength = int(map(mouseY, 0, height, 600, 0));
@@ -172,8 +172,6 @@ function keyReleased() {
             rounds--;
         }
     }
-
-    // TODO key numbers for color themes
 
     return false;
 }
