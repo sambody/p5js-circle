@@ -51,7 +51,6 @@ function setup() {
     textLeading(20);
 }
 
-
 function draw() {
     // Set color mode
     if (isDarkMode) {
@@ -94,7 +93,6 @@ function draw() {
     drawLines();
 }
 
-
 function drawLines() {
     // draw each line
     for (let i = 0; i < linesCount * rounds; i++) {
@@ -111,7 +109,7 @@ function drawLines() {
 
         push();
         // rotate to next point on circle, move to it, rotate, draw the line
-        // 1 segment = TWO_PI / linesCount (do not calculate separately)
+        // one segment = TWO_PI / linesCount (do not calculate separately)
         rotate(TWO_PI / linesCount * i);
         translate(circleDiam / 2, 0);
         rotate(TWO_PI / linesCount * lineRotations * i + radians(randomShiftAngle));
@@ -126,7 +124,6 @@ function drawLines() {
 }
 
 function keyReleased() {
-    // TODO Make these a chain of if/else statements?
     // Press S to save and download; will add variables to file name
     if (key === 's' || key === 'S') {
         let filename = '';
@@ -164,7 +161,7 @@ function keyReleased() {
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
-    // Press arrow up/down to increase/decrease line weight (thickness)
+    // Press arrow up/down to increase/decrease rounds
     if (keyCode === UP_ARROW) {
         rounds++;
     } else if (keyCode === DOWN_ARROW) {
@@ -175,7 +172,6 @@ function keyReleased() {
 
     return false;
 }
-
 
 // Show variables in top left corner of canvas
 function showVariables() {
@@ -203,7 +199,6 @@ function showVariables() {
     }
     text(varText, 10, 30);
 }
-
 
 // Redraw when browser window is resized
 function windowResized() {
