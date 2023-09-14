@@ -1,7 +1,9 @@
 // TODO make line appear and disappear, without moving
 // TODO make lines animate/rotate around root point
-// TODO use Space to freeze X and Y, V to toggle variables
-// TODO key numbers for color themes
+// TODO V to toggle variables
+// TODO key numbers for color themes; add colors to filename
+// TODO make version with sliders/checkboxes
+// TODO put online in page
 
 
 // Set variables:
@@ -141,14 +143,14 @@ function keyReleased() {
         saveCanvas(filename, 'png')
     }
 
-    // Press Space to toggle text of variables on the canvas
-    if (key === ' ' || key === '?') { variablesAreVisible = !variablesAreVisible; }
+    // Press V to toggle text of variables/help instructions on the canvas
+    if (key === 'v' || key === 'V' || key === '?') { variablesAreVisible = !variablesAreVisible; }
 
     // Press R to toggle randomness
     if (key === 'r' || key === 'R') { isRandomized = !isRandomized; }
 
-    // Press T to toggle transitioning/morphing shapes (complete rounds)
-    if (key === 't' || key === 'T') { isCompleteRound = !isCompleteRound; }
+    // Press Space to toggle transitioning/morphing shapes (complete rounds)
+    if (key === ' ') { isCompleteRound = !isCompleteRound; }
 
     // Press D or L to toggle dark/light mode
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
@@ -160,30 +162,29 @@ function keyReleased() {
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
-    // Press arrow up/down to increase/decrease rounds
-    if (keyCode === UP_ARROW) {
-        rounds++;
-    } else if (keyCode === DOWN_ARROW) {
-        if (rounds > 1) {
-            rounds--;
-        }
-    }
+    // Press arrow up/down to increase/decrease complete rounds
+    // if (keyCode === UP_ARROW && !isCompleteRound) {
+    //     rounds++;
+    // } else if (keyCode === DOWN_ARROW && !isCompleteRound) {
+    //     if (rounds > 1) {
+    //         rounds--;
+    //     }
+    // }
 
     return false;
 }
 
-// Show variables in top left corner of canvas
+// Show text (instructions and variables) in top left corner of canvas
 function showVariables() {
     let varText = '';
-    varText += `Press Space to toggle this text\n`;
-    varText += `Press S to save as PNG image\n`;
-    varText += `Press R to toggle randomness (noise)\n`;
-    varText += `Press D to toggle dark mode\n`;
-    varText += `Press C to toggle the small circles\n`;
-    varText += `Press arrow up/down to change count\n`;
+    varText += `Press ? to toggle these instructions\n\n`;
+    varText += `Press Space to toggle matching start/end line\n`;
     varText += `Press X to toggle mouse X interaction (line rotations)\n`;
     varText += `Press Y to toggle mouse Y interaction (line length)\n`;
-    varText += `Press a number to change color theme\n`;
+    varText += `Press R to toggle randomized position\n`;
+    varText += `Press C to toggle small circles\n`;
+    varText += `Press D to toggle dark mode\n`;
+    varText += `Press S to save as PNG image\n`;
     varText += `\n`;
     varText += `lineRotations ${lineRotations}\n`;
     varText += `rounds ${rounds}\n`;
