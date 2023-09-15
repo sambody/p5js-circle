@@ -20,7 +20,7 @@ let isDarkMode = true;
 let hasSmallCircles = true;
 let isFullRotationPerRound = false;
 
-let xIsInteractive = true;
+let isInteractive = true;
 let yIsInteractive = true;
 
 let lineColor;
@@ -84,7 +84,7 @@ function draw() {
     if (variablesAreVisible) { showVariables(); }
 
     // interactive mode, dynamic values replacing fixed values
-    if (xIsInteractive) {
+    if (isInteractive) {
         // Map mouseX position to line rotations: choose one of two versions
         if (isFullRotationPerRound) {
             // Version 1: exact full rounds, symmetrical shapes, static "jumps"
@@ -93,8 +93,7 @@ function draw() {
             // Version 2: moving last line, creating continuous waves/leafs
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
-    }
-    if (yIsInteractive) {
+        // Map mouseY position to line length
         lineLength = int(map(mouseY, 0, height, 600, 0));
     }
 
@@ -162,15 +161,14 @@ function keyReleased() {
     // Press R to toggle randomness
     if (key === 'r' || key === 'R') { positionIsRandomized = !positionIsRandomized; }
 
-    // Press Space to toggle transitioning/morphing shapes (complete rounds)
-    if (key === ' ') { isFullRotationPerRound = !isFullRotationPerRound; }
+    // Press Space to toggle fluid transition (vs static rounds)
+    if (key === 'f' || key === 'F') { isFullRotationPerRound = !isFullRotationPerRound; }
 
     // Press D or L to toggle dark/light mode
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
 
     // Press X (or Y) to toggle interactivity of mouse X (Y) position 
-    if (key === 'x' || key === 'X') { xIsInteractive = !xIsInteractive; }
-    if (key === 'y' || key === 'Y') { yIsInteractive = !yIsInteractive; }
+    if (key === ' ') { isInteractive = !isInteractive; }
 
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
@@ -187,8 +185,6 @@ function keyReleased() {
     if (key === '9') { indexTheme = 9; }
     if (key === '0') { indexTheme = 0; }
 
-
-
     return false;
 }
 
@@ -196,12 +192,12 @@ function keyReleased() {
 function showVariables() {
     let varText = '';
     varText += `Press ? to toggle these instructions\n\n`;
-    varText += `Press Space to toggle matching start/end line\n`;
-    varText += `Press X to toggle mouse X interaction (line rotations)\n`;
-    varText += `Press Y to toggle mouse Y interaction (line length)\n`;
+    varText += `Press F to toggle fluid transitions\n`;
+    varText += `Press Space to toggle mouse X/Y interactions\n`;
     varText += `Press R to toggle randomized position\n`;
     varText += `Press C to toggle small circles\n`;
-    varText += `Press D to toggle dark mode\n`;
+    varText += `Press 1-9 to change color theme\n`;
+    varText += `Press D to toggle dark/light color mode\n`;
     varText += `Press S to save as PNG image\n`;
     varText += `\n`;
     varText += `lineRotations ${lineRotations}\n`;
