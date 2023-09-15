@@ -1,21 +1,18 @@
-// TODO make line appear and disappear, without moving
-// TODO make lines animate/rotate around root point
-// TODO V to toggle variables
-// TODO key numbers for color themes; add colors to filename
-// TODO make version with sliders/checkboxes
-// TODO put online in page
-
-
 // Set variables:
-// Number of line rotations per round (when mouseX not interactive). Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
+
+// Number of line rotations per round (when mouseX not interactive)
+// Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
 let lineRotations = 5;
-// Number of rounds (full circle); adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to close)
+
+// Number of rounds (full circle); 
+// Adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to fully close)
 let rounds = 1;
+
 let linesCount = 200;
-let lineLength = 160;   // length of line (when mouseY not interactive)
+let lineLength = 160;
 let lineWeight = 1;
-let randomPositionMax = 12;     // limit of random position (in px), 0 for none
-let randomAngleMax = 6;         // limit of random angle (in degrees), 0 for none
+let randomPositionMax = 12;
+let randomAngleMax = 6;
 let circleDiam = 400;
 
 
@@ -162,19 +159,10 @@ function keyReleased() {
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
-    // Press arrow up/down to increase/decrease complete rounds
-    // if (keyCode === UP_ARROW && !isCompleteRound) {
-    //     rounds++;
-    // } else if (keyCode === DOWN_ARROW && !isCompleteRound) {
-    //     if (rounds > 1) {
-    //         rounds--;
-    //     }
-    // }
-
     return false;
 }
 
-// Show text (instructions and variables) in top left corner of canvas
+// Show text in top left corner of canvas
 function showVariables() {
     let varText = '';
     varText += `Press ? to toggle these instructions\n\n`;
