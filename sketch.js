@@ -1,36 +1,35 @@
 // Set variables:
 
-// Number of line rotations per round (when mouseX not interactive)
+// Number of line rotations per round (when mouseX is not interactive)
 // Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
 let lineRotations = 5;
 
-// Number of rounds (full circle); 
+// Number of full circle rounds 
 // Adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to fully close)
 let rounds = 1;
 
-let linesCount = 200;
+let lineCount = 200;
 let lineLength = 160;
 let lineWeight = 1;
+let circleDiam = 400;
+let positionIsRandomized = false;
 let randomPositionMax = 12;
 let randomAngleMax = 6;
-let circleDiam = 400;
+let variablesAreVisible = true;
+let isDarkMode = true;
+let hasSmallCircles = true;
+let isFullRotationPerRound = true;
 
+let xIsInteractive = true;
+let yIsInteractive = true;
 
 let lineColor;
 let backgroundColor;
-let isRandomized = false;
-let randomShiftPosX = 0;
-let randomShiftPosY = 0;
-let randomShiftAngle = 0;
-let newLength;
-let variablesAreVisible = true;
-let isInteractiveX = true;
-let isInteractiveY = true;
-let isDarkMode = true;
-let hasSmallCircles = true;
-let isCompleteRound = true;
 let light;
 let dark;
+let randomShiftPosX;
+let randomShiftPosY;
+let randomShiftAngle;
 
 
 function setup() {
@@ -50,7 +49,7 @@ function setup() {
 }
 
 function draw() {
-    // Set color mode
+    // Set colors
     if (isDarkMode) {
         backgroundColor = dark;
         lineColor = light;
@@ -60,7 +59,7 @@ function draw() {
     }
     background(backgroundColor);
 
-    // keep fixed random on each draw loop
+    // keep fixed randomness on each draw loop
     randomSeed(0);
 
     // show variables on the screen 
@@ -69,9 +68,9 @@ function draw() {
     if (variablesAreVisible) { showVariables(); }
 
     // interactive mode, dynamic values replacing fixed values
-    if (isInteractiveX) {
+    if (xIsInteractive) {
         // Map mouseX position to line rotations: choose one of two versions
-        if (isCompleteRound) {
+        if (isFullRotationPerRound) {
             // Version 1: exact full rounds, symmetrical shapes, static "jumps"
             lineRotations = int(map(mouseX, 0, width, -8, 8));
         } else {
@@ -79,7 +78,7 @@ function draw() {
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
     }
-    if (isInteractiveY) {
+    if (yIsInteractive) {
         lineLength = int(map(mouseY, 0, height, 600, 0));
     }
 
@@ -93,9 +92,9 @@ function draw() {
 
 function drawLines() {
     // draw each line
-    for (let i = 0; i < linesCount * rounds; i++) {
+    for (let i = 0; i < lineCount * rounds; i++) {
         // Random shift, if any
-        if (isRandomized) {
+        if (positionIsRandomized) {
             randomShiftPosX = random(-randomPositionMax, randomPositionMax);
             randomShiftPosY = random(-randomPositionMax, randomPositionMax);
             randomShiftAngle = random(-randomAngleMax, randomAngleMax);
@@ -108,9 +107,9 @@ function drawLines() {
         push();
         // rotate to next point on circle, move to it, rotate, draw the line
         // one segment = TWO_PI / linesCount (do not calculate separately)
-        rotate(TWO_PI / linesCount * i);
+        rotate(TWO_PI / lineCount * i);
         translate(circleDiam / 2, 0);
-        rotate(TWO_PI / linesCount * lineRotations * i + radians(randomShiftAngle));
+        rotate(TWO_PI / lineCount * lineRotations * i + radians(randomShiftAngle));
         line(0 + randomShiftPosX, 0 + randomShiftPosY, lineLength + randomShiftPosX, 0 + randomShiftPosY);
         if (hasSmallCircles) {
             fill(lineColor);
@@ -121,6 +120,7 @@ function drawLines() {
     }
 }
 
+// Press a key to change behavior or save (not working in online editor)
 function keyReleased() {
     // Press S to save and download; will add variables to file name
     if (key === 's' || key === 'S') {
@@ -128,12 +128,12 @@ function keyReleased() {
         filename += `mCircle`;
         filename += `-lineRotations${lineRotations}`;
         filename += `-rounds${rounds}`;
-        filename += `-linesCount${linesCount}`;
+        filename += `-lineCount${lineCount}`;
         filename += `-lineLength${lineLength}`;
         filename += `-lineWeight${lineWeight}`;
         filename += `-circleDiam${circleDiam}`;
-        filename += `-isRandom${isRandomized}`;
-        if (isRandomized) {
+        filename += `-posIsRandom${positionIsRandomized}`;
+        if (positionIsRandomized) {
             filename += `-randomPos${randomPositionMax}`;
             filename += `-randomAngle${randomAngleMax}`;
         }
@@ -144,17 +144,17 @@ function keyReleased() {
     if (key === 'v' || key === 'V' || key === '?') { variablesAreVisible = !variablesAreVisible; }
 
     // Press R to toggle randomness
-    if (key === 'r' || key === 'R') { isRandomized = !isRandomized; }
+    if (key === 'r' || key === 'R') { positionIsRandomized = !positionIsRandomized; }
 
     // Press Space to toggle transitioning/morphing shapes (complete rounds)
-    if (key === ' ') { isCompleteRound = !isCompleteRound; }
+    if (key === ' ') { isFullRotationPerRound = !isFullRotationPerRound; }
 
     // Press D or L to toggle dark/light mode
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
 
     // Press X (or Y) to toggle interactivity of mouse X (Y) position 
-    if (key === 'x' || key === 'X') { isInteractiveX = !isInteractiveX; }
-    if (key === 'y' || key === 'Y') { isInteractiveY = !isInteractiveY; }
+    if (key === 'x' || key === 'X') { xIsInteractive = !xIsInteractive; }
+    if (key === 'y' || key === 'Y') { yIsInteractive = !yIsInteractive; }
 
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
@@ -176,19 +176,19 @@ function showVariables() {
     varText += `\n`;
     varText += `lineRotations ${lineRotations}\n`;
     varText += `rounds ${rounds}\n`;
-    varText += `linesCount ${linesCount}\n`;
+    varText += `lineCount ${lineCount}\n`;
     varText += `lineLength ${lineLength}\n`;
     varText += `lineWeight ${lineWeight}\n`;
     varText += `circleDiam ${circleDiam}\n`;
-    varText += `isRandomPlacement ${isRandomized}\n`;
-    if (isRandomized) {
+    varText += `isRandomPlacement ${positionIsRandomized}\n`;
+    if (positionIsRandomized) {
         varText += `randomPosition ${randomPositionMax}\n`;
         varText += `randomAngle ${randomAngleMax}\n`;
     }
     text(varText, 10, 30);
 }
 
-// Redraw when browser window is resized
+// Redraw when browser window is resized (not working in online editor)
 function windowResized() {
     setup();
     draw();
