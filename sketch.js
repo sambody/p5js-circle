@@ -18,7 +18,7 @@ let randomAngleMax = 6;
 let variablesAreVisible = true;
 let isDarkMode = true;
 let hasSmallCircles = true;
-let isFullRotationPerRound = true;
+let isFullRotationPerRound = false;
 
 let xIsInteractive = true;
 let yIsInteractive = true;
@@ -27,6 +27,19 @@ let lineColor;
 let backgroundColor;
 let light;
 let dark;
+let colorThemes = [
+    { light: 'rgb(200, 200, 200)', dark: 'rgb(30, 30, 30)' }, // 0 gray (default)
+    { light: 'rgb(204, 204, 204)', dark: 'rgb(168, 168, 168)' }, // light gray
+    { light: 'rgb(223, 186, 225)', dark: 'rgb(55, 45, 55)' }, // pink
+    { light: 'rgb(254, 42, 42)', dark: 'rgb(5, 4, 5)' }, // red black
+    { light: 'rgb(184, 250, 239)', dark: 'rgb(37, 48, 45)' }, // teal
+    { light: 'rgb(161, 225, 87)', dark: 'rgb(35, 44, 33)' }, // green
+    { light: 'rgb(236, 215, 109)', dark: 'rgb(49, 45, 38)' }, // yellow
+    { light: 'rgb(255, 223, 136)', dark: 'rgb(47, 70, 132)' }, // blue yellow
+    { light: 'rgb(201, 229, 241)', dark: 'rgb(35, 54, 103)' }, // blue
+    { light: 'rgb(253, 189, 129)', dark: 'rgb(47, 33, 33)' }, // dark brown
+];
+let indexTheme;
 let randomShiftPosX;
 let randomShiftPosY;
 let randomShiftAngle;
@@ -35,9 +48,10 @@ let randomShiftAngle;
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
-    // colors
-    light = color('rgb(253, 189, 129)');
-    dark = color('rgb(47, 33, 33)');
+    // default colors
+    indexTheme = 0;
+    light = colorThemes[indexTheme].light;
+    dark = colorThemes[indexTheme].dark;
 
     strokeCap(SQUARE);
     // noCursor();
@@ -50,6 +64,8 @@ function setup() {
 
 function draw() {
     // Set colors
+    light = colorThemes[indexTheme].light;
+    dark = colorThemes[indexTheme].dark;
     if (isDarkMode) {
         backgroundColor = dark;
         lineColor = light;
@@ -159,6 +175,20 @@ function keyReleased() {
     // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
+    // Press a number to change color theme
+    if (key === '1') { indexTheme = 1; }
+    if (key === '2') { indexTheme = 2; }
+    if (key === '3') { indexTheme = 3; }
+    if (key === '4') { indexTheme = 4; }
+    if (key === '5') { indexTheme = 5; }
+    if (key === '6') { indexTheme = 6; }
+    if (key === '7') { indexTheme = 7; }
+    if (key === '8') { indexTheme = 8; }
+    if (key === '9') { indexTheme = 9; }
+    if (key === '0') { indexTheme = 0; }
+
+
+
     return false;
 }
 
@@ -180,11 +210,13 @@ function showVariables() {
     varText += `lineLength ${lineLength}\n`;
     varText += `lineWeight ${lineWeight}\n`;
     varText += `circleDiam ${circleDiam}\n`;
-    varText += `isRandomPlacement ${positionIsRandomized}\n`;
+    varText += `positionIsRandomized ${positionIsRandomized}\n`;
     if (positionIsRandomized) {
         varText += `randomPosition ${randomPositionMax}\n`;
         varText += `randomAngle ${randomAngleMax}\n`;
     }
+    varText += `colorDark ${dark}\n`;
+    varText += `colorLight ${light}\n`;
     text(varText, 10, 30);
 }
 
