@@ -19,9 +19,7 @@ let variablesAreVisible = true;
 let isDarkMode = true;
 let hasSmallCircles = true;
 let isFullRotationPerRound = false;
-
 let isInteractive = true;
-let yIsInteractive = true;
 
 let lineColor;
 let backgroundColor;
