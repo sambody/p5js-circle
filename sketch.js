@@ -35,7 +35,7 @@ let colorThemes = [
     { light: 'rgb(201, 229, 241)', dark: 'rgb(35, 54, 103)' }, // blue
     { light: 'rgb(253, 189, 129)', dark: 'rgb(47, 33, 33)' }, // dark brown
 ];
-let indexTheme;
+let indexColorTheme;
 let randomShiftPosX;
 let randomShiftPosY;
 let randomShiftAngle;
@@ -48,15 +48,10 @@ let sliderLines;
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
-    // default colors
-    indexTheme = 0;
-    // light = colorThemes[indexTheme].light;
-    // dark = colorThemes[indexTheme].dark;
+    // default color theme
+    indexColorTheme = 0;
 
     strokeCap(SQUARE);
-    // noCursor();
-
-    // font properties
     textFont('Helvetica, Arial, sans-serif');
     textSize(12);
     textLeading(20);
@@ -80,18 +75,15 @@ function setup() {
 }
 
 function draw() {
-    // keep fixed randomness on each draw loop
     randomSeed(0);
 
-    // Get and use theme colors
     getColors();
 
-    // show variables on the screen 
+    getDynamicVariables();
+
     fill(lineColor);
     noStroke();
     if (variablesAreVisible) { showVariables(); }
-
-    getDynamicVariables();
 
     stroke(lineColor);
     strokeWeight(lineWeight);
@@ -105,12 +97,13 @@ function getDynamicVariables() {
     if (isInteractive) {
         // Interactive mode: map mouse X/Y position
         if (isFullRotationPerRound) {
-            // exact full rounds, symmetrical shapes, static "jumps"
+            // exact full rounds, static "jumps"
             lineRotations = int(map(mouseX, 0, width, -8, 8));
         } else {
-            // moving last line, creating continuous waves/leafs
+            // moving last line, continuous waves
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
+
         lineLength = int(map(mouseY, 0, height, 600, 0));
     } else {
         // Static mode: use sliders
@@ -118,6 +111,7 @@ function getDynamicVariables() {
         lines = sliderLines.value();
         lineRotationsFraction = sliderRotationsFraction.value();
         lineRotations = sliderRotations.value() + lineRotationsFraction / 10;
+
         // get number of rounds for complete shapes
         switch (lineRotationsFraction) {
             case 1:
@@ -174,8 +168,8 @@ function drawLines() {
 }
 
 function getColors() {
-    light = colorThemes[indexTheme].light;
-    dark = colorThemes[indexTheme].dark;
+    light = colorThemes[indexColorTheme].light;
+    dark = colorThemes[indexColorTheme].dark;
     if (isDarkMode) {
         backgroundColor = dark;
         lineColor = light;
@@ -216,16 +210,16 @@ function keyReleased() {
     if (key === ' ') { isInteractive = !isInteractive; }
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
-    if (key === '1') { indexTheme = 1; }
-    if (key === '2') { indexTheme = 2; }
-    if (key === '3') { indexTheme = 3; }
-    if (key === '4') { indexTheme = 4; }
-    if (key === '5') { indexTheme = 5; }
-    if (key === '6') { indexTheme = 6; }
-    if (key === '7') { indexTheme = 7; }
-    if (key === '8') { indexTheme = 8; }
-    if (key === '9') { indexTheme = 9; }
-    if (key === '0') { indexTheme = 0; }
+    if (key === '1') { indexColorTheme = 1; }
+    if (key === '2') { indexColorTheme = 2; }
+    if (key === '3') { indexColorTheme = 3; }
+    if (key === '4') { indexColorTheme = 4; }
+    if (key === '5') { indexColorTheme = 5; }
+    if (key === '6') { indexColorTheme = 6; }
+    if (key === '7') { indexColorTheme = 7; }
+    if (key === '8') { indexColorTheme = 8; }
+    if (key === '9') { indexColorTheme = 9; }
+    if (key === '0') { indexColorTheme = 0; }
 
     return false;
 }
