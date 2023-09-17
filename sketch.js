@@ -1,8 +1,8 @@
 // Set variables:
 
 // Number of line rotations per round (when mouseX is not interactive)
-// Example values: -5, -2, 0, 1, 2.5, 5.2, 13...
 let lineRotations = 5;
+let lineRotationsFraction = 0;
 
 // Number of full circle rounds 
 // Adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to fully close)
@@ -15,11 +15,11 @@ let circleDiam = 400;
 let positionIsRandomized = false;
 let randomPositionMax = 12;
 let randomAngleMax = 6;
-let variablesAreVisible = true;
+let variablesAreVisible = false;
 let isDarkMode = true;
 let hasSmallCircles = true;
 let isFullRotationPerRound = false;
-let isInteractive = true;
+let isInteractive = false;
 
 let lineColor;
 let backgroundColor;
@@ -41,6 +41,9 @@ let indexTheme;
 let randomShiftPosX;
 let randomShiftPosY;
 let randomShiftAngle;
+let sliderRotations;
+let sliderRotationsFraction;
+let sliderLineLength;
 
 
 function setup() {
@@ -58,6 +61,19 @@ function setup() {
     textFont('Helvetica, Arial, sans-serif');
     textSize(12);
     textLeading(20);
+
+    // sliders etc
+    sliderRotations = createSlider(-24, 24, 3);
+    sliderRotations.position(width - 200, 20);
+    sliderRotations.style('width', '180px');
+
+    sliderRotationsFraction = createSlider(0, 9, 0, 1);
+    sliderRotationsFraction.position(width - 200, 50);
+    sliderRotationsFraction.style('width', '180px');
+
+    sliderLineLength = createSlider(1, 600, 150);
+    sliderLineLength.position(width - 200, 80);
+    sliderLineLength.style('width', '180px');
 }
 
 function draw() {
@@ -93,6 +109,33 @@ function draw() {
         }
         // Map mouseY position to line length
         lineLength = int(map(mouseY, 0, height, 600, 0));
+    } else {
+        // use slider values
+        lineLength = sliderLineLength.value();
+        lineRotationsFraction = sliderRotationsFraction.value();
+        lineRotations = sliderRotations.value() + lineRotationsFraction / 10;
+        // get number of rounds for complete shapes
+        switch (lineRotationsFraction) {
+            case 1:
+            case 3:
+            case 7:
+            case 9:
+                rounds = 10;
+                break;
+            case 2:
+            case 4:
+            case 6:
+                rounds = 5;
+                break;
+            case 5:
+                rounds = 2;
+                break;
+            case 8:
+                rounds = 7;
+                break;
+            default:
+                rounds = 1;
+        }
     }
 
     stroke(lineColor);
