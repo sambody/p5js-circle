@@ -88,6 +88,9 @@ function draw() {
         lineColor = dark;
     }
     background(backgroundColor);
+    sliderRotations.style('background', light);
+    sliderRotationsFraction.style('background', light);
+    sliderLineLength.style('background', light);
 
     // keep fixed randomness on each draw loop
     randomSeed(0);
