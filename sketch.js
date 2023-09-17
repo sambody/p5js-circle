@@ -80,24 +80,11 @@ function setup() {
 }
 
 function draw() {
-    // Set colors
-    light = colorThemes[indexTheme].light;
-    dark = colorThemes[indexTheme].dark;
-    if (isDarkMode) {
-        backgroundColor = dark;
-        lineColor = light;
-    } else {
-        backgroundColor = light;
-        lineColor = dark;
-    }
-    background(backgroundColor);
-    sliderRotations.style('background', light);
-    sliderRotationsFraction.style('background', light);
-    sliderLineLength.style('background', light);
-    sliderLines.style('background', light);
-
     // keep fixed randomness on each draw loop
     randomSeed(0);
+
+    // Set colors
+    setColors();
 
     // show variables on the screen 
     fill(lineColor);
@@ -182,6 +169,24 @@ function drawLines() {
         pop();
 
     }
+}
+
+// Set colors
+function setColors() {
+    light = colorThemes[indexTheme].light;
+    dark = colorThemes[indexTheme].dark;
+    if (isDarkMode) {
+        backgroundColor = dark;
+        lineColor = light;
+    } else {
+        backgroundColor = light;
+        lineColor = dark;
+    }
+    background(backgroundColor);
+    sliderRotations.style('background', light);
+    sliderRotationsFraction.style('background', light);
+    sliderLineLength.style('background', light);
+    sliderLines.style('background', light);
 }
 
 // Press a key to change behavior or save (not working in online editor)
