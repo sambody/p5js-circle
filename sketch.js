@@ -4,7 +4,7 @@
 let lineRotations;
 let lineRotationsFraction;
 let rounds;
-let lineCount = 200;
+let lines = 200;
 let lineLength = 160;
 let lineWeight = 1;
 let circleDiam = 400;
@@ -71,6 +71,10 @@ function setup() {
     sliderLineLength = createSlider(1, 600, 150);
     sliderLineLength.position(width - 200, 80);
     sliderLineLength.style('width', '180px');
+
+    sliderLines = createSlider(12, 800, 200);
+    sliderLines.position(width - 200, 110);
+    sliderLines.style('width', '180px');
 }
 
 function draw() {
@@ -88,6 +92,7 @@ function draw() {
     sliderRotations.style('background', light);
     sliderRotationsFraction.style('background', light);
     sliderLineLength.style('background', light);
+    sliderLines.style('background', light);
 
     // keep fixed randomness on each draw loop
     randomSeed(0);
@@ -112,6 +117,7 @@ function draw() {
     } else {
         // use slider values
         lineLength = sliderLineLength.value();
+        lines = sliderLines.value();
         lineRotationsFraction = sliderRotationsFraction.value();
         lineRotations = sliderRotations.value() + lineRotationsFraction / 10;
         // get number of rounds for complete shapes
@@ -148,7 +154,7 @@ function draw() {
 
 function drawLines() {
     // draw each line
-    for (let i = 0; i < lineCount * rounds; i++) {
+    for (let i = 0; i < lines * rounds; i++) {
         // Random shift, if any
         if (positionIsRandomized) {
             randomShiftPosX = random(-randomPositionMax, randomPositionMax);
@@ -163,9 +169,9 @@ function drawLines() {
         push();
         // rotate to next point on circle, move to it, rotate, draw the line
         // one segment = TWO_PI / linesCount (do not calculate separately)
-        rotate(TWO_PI / lineCount * i);
+        rotate(TWO_PI / lines * i);
         translate(circleDiam / 2, 0);
-        rotate(TWO_PI / lineCount * lineRotations * i + radians(randomShiftAngle));
+        rotate(TWO_PI / lines * lineRotations * i + radians(randomShiftAngle));
         line(0 + randomShiftPosX, 0 + randomShiftPosY, lineLength + randomShiftPosX, 0 + randomShiftPosY);
         if (hasSmallCircles) {
             fill(lineColor);
@@ -184,7 +190,7 @@ function keyReleased() {
         filename += `mCircle`;
         filename += `-lineRotations${lineRotations}`;
         filename += `-rounds${rounds}`;
-        filename += `-lineCount${lineCount}`;
+        filename += `-lineCount${lines}`;
         filename += `-lineLength${lineLength}`;
         filename += `-lineWeight${lineWeight}`;
         filename += `-circleDiam${circleDiam}`;
@@ -243,7 +249,7 @@ function showVariables() {
     varText += `\n`;
     varText += `lineRotations ${lineRotations}\n`;
     varText += `rounds ${rounds}\n`;
-    varText += `lineCount ${lineCount}\n`;
+    varText += `lineCount ${lines}\n`;
     varText += `lineLength ${lineLength}\n`;
     varText += `lineWeight ${lineWeight}\n`;
     varText += `circleDiam ${circleDiam}\n`;
