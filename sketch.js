@@ -50,8 +50,8 @@ function setup() {
 
     // default colors
     indexTheme = 0;
-    light = colorThemes[indexTheme].light;
-    dark = colorThemes[indexTheme].dark;
+    // light = colorThemes[indexTheme].light;
+    // dark = colorThemes[indexTheme].dark;
 
     strokeCap(SQUARE);
     // noCursor();
@@ -83,28 +83,37 @@ function draw() {
     // keep fixed randomness on each draw loop
     randomSeed(0);
 
-    // Set colors
-    setColors();
+    // Get and use theme colors
+    getColors();
 
     // show variables on the screen 
     fill(lineColor);
     noStroke();
     if (variablesAreVisible) { showVariables(); }
 
-    // interactive mode, dynamic values replacing fixed values
+    getDynamicVariables();
+
+    stroke(lineColor);
+    strokeWeight(lineWeight);
+    // position to center, rotate upwards, then start drawing the lines
+    translate(width / 2, height / 2);
+    rotate(-radians(90));
+    drawLines();
+}
+
+function getDynamicVariables() {
     if (isInteractive) {
-        // Map mouseX position to line rotations: choose one of two versions
+        // Interactive mode: map mouse X/Y position
         if (isFullRotationPerRound) {
-            // Version 1: exact full rounds, symmetrical shapes, static "jumps"
+            // exact full rounds, symmetrical shapes, static "jumps"
             lineRotations = int(map(mouseX, 0, width, -8, 8));
         } else {
-            // Version 2: moving last line, creating continuous waves/leafs
+            // moving last line, creating continuous waves/leafs
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
-        // Map mouseY position to line length
         lineLength = int(map(mouseY, 0, height, 600, 0));
     } else {
-        // use slider values
+        // Static mode: use sliders
         lineLength = sliderLineLength.value();
         lines = sliderLines.value();
         lineRotationsFraction = sliderRotationsFraction.value();
@@ -132,13 +141,6 @@ function draw() {
                 rounds = 1;
         }
     }
-
-    stroke(lineColor);
-    strokeWeight(lineWeight);
-    // position to center, rotate upwards, then start drawing the lines
-    translate(width / 2, height / 2);
-    rotate(-radians(90));
-    drawLines();
 }
 
 function drawLines() {
@@ -171,8 +173,7 @@ function drawLines() {
     }
 }
 
-// Set colors
-function setColors() {
+function getColors() {
     light = colorThemes[indexTheme].light;
     dark = colorThemes[indexTheme].dark;
     if (isDarkMode) {
@@ -208,26 +209,13 @@ function keyReleased() {
         }
         saveCanvas(filename, 'png')
     }
-
-    // Press V to toggle text of variables/help instructions on the canvas
     if (key === 'v' || key === 'V' || key === '?') { variablesAreVisible = !variablesAreVisible; }
-
-    // Press R to toggle randomness
     if (key === 'r' || key === 'R') { positionIsRandomized = !positionIsRandomized; }
-
-    // Press Space to toggle fluid transition (vs static rounds)
     if (key === 'f' || key === 'F') { isFullRotationPerRound = !isFullRotationPerRound; }
-
-    // Press D or L to toggle dark/light mode
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
-
-    // Press X (or Y) to toggle interactivity of mouse X (Y) position 
     if (key === ' ') { isInteractive = !isInteractive; }
-
-    // Press C to toggle the small circles
     if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
 
-    // Press a number to change color theme
     if (key === '1') { indexTheme = 1; }
     if (key === '2') { indexTheme = 2; }
     if (key === '3') { indexTheme = 3; }
@@ -270,7 +258,7 @@ function showVariables() {
     text(varText, 10, 30);
 }
 
-// Redraw when browser window is resized (not working in online editor)
+// Redraw when browser window is resized
 function windowResized() {
     setup();
     draw();
