@@ -1,17 +1,14 @@
 // Set variables:
 
-// Number of line rotations per round (when mouseX is not interactive)
-let lineRotations = 5;
-let lineRotationsFraction = 0;
-
-// Number of full circle rounds 
-// Adapt when lineRotations are not integers (eg. 2.5 needs 2 rounds to fully close)
-let rounds = 1;
-
+// Number of 360° line rotations per round (when mouseX is not interactive)
+let lineRotations;
+let lineRotationsFraction;
+let rounds;
 let lineCount = 200;
 let lineLength = 160;
 let lineWeight = 1;
 let circleDiam = 400;
+let smallCircleDiam = 3;
 let positionIsRandomized = false;
 let randomPositionMax = 12;
 let randomAngleMax = 6;
@@ -172,7 +169,7 @@ function drawLines() {
         line(0 + randomShiftPosX, 0 + randomShiftPosY, lineLength + randomShiftPosX, 0 + randomShiftPosY);
         if (hasSmallCircles) {
             fill(lineColor);
-            circle(lineLength + randomShiftPosX, 0 + randomShiftPosY, 4);
+            circle(lineLength + randomShiftPosX, 0 + randomShiftPosY, smallCircleDiam);
         }
         pop();
 
