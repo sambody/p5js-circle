@@ -6,6 +6,7 @@ let lineRotationsFraction;
 let rounds;
 let lines = 200;
 let lineLength = 160;
+
 let lineWeight = 1;
 let circleDiam = 400;
 let smallCircleDiam = 3;
@@ -15,9 +16,9 @@ let randomAngleMax = 6;
 let variablesAreVisible = false;
 let isDarkMode = true;
 let hasSmallCircles = true;
-let isFullRotationPerRound = false;
 let isInteractive = false;
 
+let isFullRotationPerRound = false;
 let lineColor;
 let backgroundColor;
 let light;
@@ -41,6 +42,7 @@ let randomShiftAngle;
 let sliderRotations;
 let sliderRotationsFraction;
 let sliderLineLength;
+let sliderLines;
 
 
 function setup() {
