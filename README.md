@@ -10,8 +10,8 @@ A visual experiment
 
 Some examples:
 
-![img/demo1.png](https://p5js.org/)
+![example 1](img/demo1.png)
 
-![img/demo2.png](https://p5js.org/)
+![example 2](img/demo2.png)
 
-![img/demo3.png](https://p5js.org/)
+![example 3](img/demo3.png)
