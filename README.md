@@ -10,8 +10,8 @@ A visual experiment
 
 Some examples:
 
-![example 1](img/demo1.png)
-
 ![example 2](img/demo2.png)
 
 ![example 3](img/demo3.png)
+
+![example 1](img/demo1.png)
