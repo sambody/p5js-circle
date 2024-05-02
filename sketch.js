@@ -13,7 +13,7 @@ let smallCircleDiam = 3;
 let positionIsRandomized = false;
 let randomPositionMax = 12;
 let randomAngleMax = 6;
-let variablesAreVisible = false;
+let infoIsVisible = true;
 let isDarkMode = true;
 let hasSmallCircles = true;
 let isInteractive = false;
@@ -44,7 +44,7 @@ let sliderRotationsFraction;
 let sliderLineLength;
 let sliderLines;
 
-
+// P5.js main setup function
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
@@ -56,34 +56,20 @@ function setup() {
     textSize(12);
     textLeading(20);
 
-    // sliders etc
-    sliderRotations = createSlider(-24, 24, 3);
-    sliderRotations.position(width - 200, 20);
-    sliderRotations.style('width', '180px');
-
-    sliderRotationsFraction = createSlider(0, 9, 0, 1);
-    sliderRotationsFraction.position(width - 200, 50);
-    sliderRotationsFraction.style('width', '180px');
-
-    sliderLineLength = createSlider(1, 600, 150);
-    sliderLineLength.position(width - 200, 80);
-    sliderLineLength.style('width', '180px');
-
-    sliderLines = createSlider(12, 800, 200);
-    sliderLines.position(width - 200, 110);
-    sliderLines.style('width', '180px');
+    if(! isInteractive){
+        drawSliders();
+    }
 }
 
+// P5.js main draw function
 function draw() {
     randomSeed(0);
-
-    getColors();
-
+    getColorsFromTheme();
     getDynamicVariables();
 
     fill(lineColor);
     noStroke();
-    if (variablesAreVisible) { showVariables(); }
+    if (infoIsVisible) { showVariables(); }
 
     stroke(lineColor);
     strokeWeight(lineWeight);
@@ -93,20 +79,21 @@ function draw() {
     drawLines();
 }
 
+// Helper functions
 function getDynamicVariables() {
     if (isInteractive) {
-        // Interactive mode: map mouse X/Y position
+        // Interactive mode: input from mouse X/Y position
         if (isFullRotationPerRound) {
-            // exact full rounds, static "jumps"
+            // exact full rounds, fixed "jumps" when interacting
             lineRotations = int(map(mouseX, 0, width, -8, 8));
         } else {
-            // moving last line, continuous waves
+            // moving last line, continuous waves when interacting
             lineRotations = Math.round(map(mouseX, 0, width, -8, 8) * 100) / 100;
         }
 
         lineLength = int(map(mouseY, 0, height, 600, 0));
     } else {
-        // Static mode: use sliders
+        // Static mode: input from sliders
         lineLength = sliderLineLength.value();
         lines = sliderLines.value();
         lineRotationsFraction = sliderRotationsFraction.value();
@@ -138,7 +125,7 @@ function getDynamicVariables() {
 }
 
 function drawLines() {
-    // draw each line
+    // draw each line, with starting position on a point of a circle
     for (let i = 0; i < lines * rounds; i++) {
         // Random shift, if any
         if (positionIsRandomized) {
@@ -167,7 +154,7 @@ function drawLines() {
     }
 }
 
-function getColors() {
+function getColorsFromTheme() {
     light = colorThemes[indexColorTheme].light;
     dark = colorThemes[indexColorTheme].dark;
     if (isDarkMode) {
@@ -182,6 +169,24 @@ function getColors() {
     sliderRotationsFraction.style('background', light);
     sliderLineLength.style('background', light);
     sliderLines.style('background', light);
+}
+
+function drawSliders() {
+    sliderRotations = createSlider(-24, 24, 3);
+    sliderRotations.position(width - 200, 20);
+    sliderRotations.style('width', '180px');
+
+    sliderLineLength = createSlider(1, 600, 150);
+    sliderLineLength.position(width - 200, 50);
+    sliderLineLength.style('width', '180px');
+
+    sliderLines = createSlider(12, 800, 200);
+    sliderLines.position(width - 200, 80);
+    sliderLines.style('width', '180px');
+
+    sliderRotationsFraction = createSlider(0, 9, 0, 1);
+    sliderRotationsFraction.position(width - 200, 110);
+    sliderRotationsFraction.style('width', '180px');
 }
 
 // Press a key to change behavior or save (not working in online editor)
@@ -203,7 +208,7 @@ function keyReleased() {
         }
         saveCanvas(filename, 'png')
     }
-    if (key === 'v' || key === 'V' || key === '?') { variablesAreVisible = !variablesAreVisible; }
+    if (key === 'v' || key === 'V' || key === '?') { infoIsVisible = !infoIsVisible; }
     if (key === 'r' || key === 'R') { positionIsRandomized = !positionIsRandomized; }
     if (key === 'f' || key === 'F') { isFullRotationPerRound = !isFullRotationPerRound; }
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
@@ -227,15 +232,18 @@ function keyReleased() {
 // Show text in top left corner of canvas
 function showVariables() {
     let varText = '';
-    varText += `Press ? to toggle these instructions\n\n`;
-    varText += `Press F to toggle fluid transitions\n`;
-    varText += `Press Space to toggle mouse X/Y interactions\n`;
+    varText += `TIPS\n`;
+    varText += `Move the sliders to change the drawing\n`;
+    varText += `Press Space to toggle mouse position as input instead of sliders\n`;
+    varText += `Press F to toggle fluid transitions (only when using mouse position)\n`;
     varText += `Press R to toggle randomized position\n`;
     varText += `Press C to toggle small circles\n`;
-    varText += `Press 1-9 to change color theme\n`;
-    varText += `Press D to toggle dark/light color mode\n`;
+    varText += `Press 0-9 to change color theme\n`;
+    varText += `Press D to toggle dark/light mode\n`;
     varText += `Press S to save as PNG image\n`;
+    varText += `Press ? to toggle these instructions\n\n`;
     varText += `\n`;
+    varText += `VARIABLES:\n`;
     varText += `lineRotations ${lineRotations}\n`;
     varText += `rounds ${rounds}\n`;
     varText += `lineCount ${lines}\n`;
