@@ -8,6 +8,8 @@ A visual experiment
 
 [Try it online here](https://sambody.github.io/p5js-circle/). Have fun.
 
+I call it M-circle. The M stands for Muybridge: he was a photographer famous for series of images that decompose a movement into separate photographs. The lines on the circle are a bit like that, steps of a movement.
+
 Some examples:
 
 ![example 2](img/demo2.png)
