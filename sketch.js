@@ -245,7 +245,7 @@ function showVariables() {
         varText += `randomShiftedPositionMax ${randomShiftedPositionMax}\n`;
         varText += `randomShiftedAngleMax ${randomShiftedAngleMax}\n`;
     }
-    varText += `colorDark ${dark}\n`;
+    varText += `colorDark ${darkColor}\n`;
     varText += `colorLight ${lightColor}\n`;
     text(varText, 10, 30);
 }
