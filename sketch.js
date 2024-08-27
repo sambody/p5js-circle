@@ -21,8 +21,8 @@ let isInteractive = false;
 let isFullRotationPerRound = false;
 let lineColor;
 let backgroundColor;
-let light;
-let dark;
+let lightColor;
+let darkColor;
 let colorThemes = [
     { light: 'rgb(200, 200, 200)', dark: 'rgb(30, 30, 30)' }, // 0 gray (default)
     { light: 'rgb(204, 204, 204)', dark: 'rgb(168, 168, 168)' }, // light gray
@@ -148,15 +148,17 @@ function drawLines() {
 }
 
 function getColorsFromTheme() {
-    light = colorThemes[selectedColorTheme].light;
-    dark = colorThemes[selectedColorTheme].dark;
-    backgroundColor = isDarkMode ? dark : light;
-    lineColor = isDarkMode ? light : dark;
+    lightColor = colorThemes[selectedColorTheme].light;
+    darkColor = colorThemes[selectedColorTheme].dark;
+    backgroundColor = isDarkMode ? darkColor : lightColor;
+    lineColor = isDarkMode ? lightColor : darkColor;
+
     background(backgroundColor);
-    sliderRotations.style('background', light);
-    sliderRotationsFraction.style('background', light);
-    sliderLineLength.style('background', light);
-    sliderLinesCount.style('background', light);
+
+    sliderRotations.style('background', lightColor);
+    sliderRotationsFraction.style('background', lightColor);
+    sliderLineLength.style('background', lightColor);
+    sliderLinesCount.style('background', lightColor);
 }
 
 function drawSliders() {
@@ -244,7 +246,7 @@ function showVariables() {
         varText += `randomShiftedAngleMax ${randomShiftedAngleMax}\n`;
     }
     varText += `colorDark ${dark}\n`;
-    varText += `colorLight ${light}\n`;
+    varText += `colorLight ${lightColor}\n`;
     text(varText, 10, 30);
 }
 
