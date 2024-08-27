@@ -150,13 +150,8 @@ function drawLines() {
 function getColorsFromTheme() {
     light = colorThemes[selectedColorTheme].light;
     dark = colorThemes[selectedColorTheme].dark;
-    if (isDarkMode) {
-        backgroundColor = dark;
-        lineColor = light;
-    } else {
-        backgroundColor = light;
-        lineColor = dark;
-    }
+    backgroundColor = isDarkMode ? dark : light;
+    lineColor = isDarkMode ? light : dark;
     background(backgroundColor);
     sliderRotations.style('background', light);
     sliderRotationsFraction.style('background', light);
