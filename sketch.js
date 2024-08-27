@@ -61,7 +61,7 @@ function setup() {
 // P5.js main draw function
 function draw() {
     randomSeed(0);
-    getColorsFromTheme();
+    setColors();
     getDynamicVariables();
 
     fill(lineColor);
@@ -147,13 +147,17 @@ function drawLines() {
     }
 }
 
-function getColorsFromTheme() {
+function setColors() {
+    // Get colors from Theme light/dark mode
     lightColor = colorThemes[selectedColorTheme].light;
     darkColor = colorThemes[selectedColorTheme].dark;
     backgroundColor = isDarkMode ? darkColor : lightColor;
     lineColor = isDarkMode ? lightColor : darkColor;
+
+    // Set background color
     background(backgroundColor);
 
+    // Set slider colors
     let sliderColor = isDarkMode ? lightColor : darkColor;
     sliderRotations.style('background', sliderColor);
     sliderRotationsFraction.style('background', sliderColor);
