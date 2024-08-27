@@ -9,13 +9,13 @@ let lineLength = 160;
 
 let lineWeight = 1;
 let circleDiam = 400;
-let smallCircleDiam = 3;
-let positionIsRandomized = false;
-let randomPositionMax = 12;
-let randomAngleMax = 6;
-let infoIsVisible = true;
+let pinheadDiam = 3;
+let isRandomizedLine = false;
+let randomShiftedPositionMax = 12;
+let randomShiftedAngleMax = 6;
+let showInfo = true;
 let isDarkMode = true;
-let hasSmallCircles = true;
+let showPinheads = true;
 let isInteractive = false;
 
 let isFullRotationPerRound = false;
@@ -35,21 +35,18 @@ let colorThemes = [
     { light: 'rgb(201, 229, 241)', dark: 'rgb(35, 54, 103)' }, // blue
     { light: 'rgb(253, 189, 129)', dark: 'rgb(47, 33, 33)' }, // dark brown
 ];
-let indexColorTheme;
-let randomShiftPosX;
-let randomShiftPosY;
-let randomShiftAngle;
+let selectedColorTheme = 0;
+let randomShiftedPosX = 0;
+let randomShiftedPosY = 0;
+let randomShiftedAngle = 0;
 let sliderRotations;
 let sliderRotationsFraction;
 let sliderLineLength;
-let sliderLines;
+let sliderLinesCount;
 
 // P5.js main setup function
 function setup() {
     createCanvas(windowWidth, windowHeight);
-
-    // default color theme
-    indexColorTheme = 0;
 
     strokeCap(SQUARE);
     textFont('Helvetica, Arial, sans-serif');
@@ -69,7 +66,7 @@ function draw() {
 
     fill(lineColor);
     noStroke();
-    if (infoIsVisible) { showVariables(); }
+    if (showInfo) { showVariables(); }
 
     stroke(lineColor);
     strokeWeight(lineWeight);
@@ -95,7 +92,7 @@ function getDynamicVariables() {
     } else {
         // Static mode: input from sliders
         lineLength = sliderLineLength.value();
-        lines = sliderLines.value();
+        lines = sliderLinesCount.value();
         lineRotationsFraction = sliderRotationsFraction.value();
         lineRotations = sliderRotations.value() + lineRotationsFraction / 10;
 
@@ -128,14 +125,10 @@ function drawLines() {
     // draw each line, with starting position on a point of a circle
     for (let i = 0; i < lines * rounds; i++) {
         // Random shift, if any
-        if (positionIsRandomized) {
-            randomShiftPosX = random(-randomPositionMax, randomPositionMax);
-            randomShiftPosY = random(-randomPositionMax, randomPositionMax);
-            randomShiftAngle = random(-randomAngleMax, randomAngleMax);
-        } else {
-            randomShiftAngle = 0;
-            randomShiftPosX = 0;
-            randomShiftPosY = 0;
+        if (isRandomizedLine) {
+            randomShiftedPosX = random(-randomShiftedPositionMax, randomShiftedPositionMax);
+            randomShiftedPosY = random(-randomShiftedPositionMax, randomShiftedPositionMax);
+            randomShiftedAngle = random(-randomShiftedAngleMax, randomShiftedAngleMax);
         }
 
         push();
@@ -143,11 +136,11 @@ function drawLines() {
         // one segment = TWO_PI / linesCount (do not calculate separately)
         rotate(TWO_PI / lines * i);
         translate(circleDiam / 2, 0);
-        rotate(TWO_PI / lines * lineRotations * i + radians(randomShiftAngle));
-        line(0 + randomShiftPosX, 0 + randomShiftPosY, lineLength + randomShiftPosX, 0 + randomShiftPosY);
-        if (hasSmallCircles) {
+        rotate(TWO_PI / lines * lineRotations * i + radians(randomShiftedAngle));
+        line(0 + randomShiftedPosX, 0 + randomShiftedPosY, lineLength + randomShiftedPosX, 0 + randomShiftedPosY);
+        if (showPinheads) {
             fill(lineColor);
-            circle(lineLength + randomShiftPosX, 0 + randomShiftPosY, smallCircleDiam);
+            circle(lineLength + randomShiftedPosX, 0 + randomShiftedPosY, pinheadDiam);
         }
         pop();
 
@@ -155,8 +148,8 @@ function drawLines() {
 }
 
 function getColorsFromTheme() {
-    light = colorThemes[indexColorTheme].light;
-    dark = colorThemes[indexColorTheme].dark;
+    light = colorThemes[selectedColorTheme].light;
+    dark = colorThemes[selectedColorTheme].dark;
     if (isDarkMode) {
         backgroundColor = dark;
         lineColor = light;
@@ -168,7 +161,7 @@ function getColorsFromTheme() {
     sliderRotations.style('background', light);
     sliderRotationsFraction.style('background', light);
     sliderLineLength.style('background', light);
-    sliderLines.style('background', light);
+    sliderLinesCount.style('background', light);
 }
 
 function drawSliders() {
@@ -180,9 +173,9 @@ function drawSliders() {
     sliderLineLength.position(width - 200, 50);
     sliderLineLength.style('width', '180px');
 
-    sliderLines = createSlider(12, 800, 200);
-    sliderLines.position(width - 200, 80);
-    sliderLines.style('width', '180px');
+    sliderLinesCount = createSlider(12, 800, 200);
+    sliderLinesCount.position(width - 200, 80);
+    sliderLinesCount.style('width', '180px');
 
     sliderRotationsFraction = createSlider(0, 9, 0, 1);
     sliderRotationsFraction.position(width - 200, 110);
@@ -201,30 +194,30 @@ function keyReleased() {
         filename += `-lineLength${lineLength}`;
         filename += `-lineWeight${lineWeight}`;
         filename += `-circleDiam${circleDiam}`;
-        filename += `-posIsRandom${positionIsRandomized}`;
-        if (positionIsRandomized) {
-            filename += `-randomPos${randomPositionMax}`;
-            filename += `-randomAngle${randomAngleMax}`;
+        filename += `-posIsRandom${isRandomizedLine}`;
+        if (isRandomizedLine) {
+            filename += `-randomPos${randomShiftedPositionMax}`;
+            filename += `-randomAngle${randomShiftedAngleMax}`;
         }
         saveCanvas(filename, 'png')
     }
-    if (key === 'v' || key === 'V' || key === '?') { infoIsVisible = !infoIsVisible; }
-    if (key === 'r' || key === 'R') { positionIsRandomized = !positionIsRandomized; }
+    if (key === 'v' || key === 'V' || key === '?') { showInfo = !showInfo; }
+    if (key === 'r' || key === 'R') { isRandomizedLine = !isRandomizedLine; }
     if (key === 'f' || key === 'F') { isFullRotationPerRound = !isFullRotationPerRound; }
     if (key === 'd' || key === 'D' || key === 'l' || key === 'L') { isDarkMode = !isDarkMode; }
     if (key === ' ') { isInteractive = !isInteractive; }
-    if (key === 'c' || key === 'C') { hasSmallCircles = !hasSmallCircles; }
+    if (key === 'c' || key === 'C') { showPinheads = !showPinheads; }
 
-    if (key === '1') { indexColorTheme = 1; }
-    if (key === '2') { indexColorTheme = 2; }
-    if (key === '3') { indexColorTheme = 3; }
-    if (key === '4') { indexColorTheme = 4; }
-    if (key === '5') { indexColorTheme = 5; }
-    if (key === '6') { indexColorTheme = 6; }
-    if (key === '7') { indexColorTheme = 7; }
-    if (key === '8') { indexColorTheme = 8; }
-    if (key === '9') { indexColorTheme = 9; }
-    if (key === '0') { indexColorTheme = 0; }
+    if (key === '1') { selectedColorTheme = 1; }
+    if (key === '2') { selectedColorTheme = 2; }
+    if (key === '3') { selectedColorTheme = 3; }
+    if (key === '4') { selectedColorTheme = 4; }
+    if (key === '5') { selectedColorTheme = 5; }
+    if (key === '6') { selectedColorTheme = 6; }
+    if (key === '7') { selectedColorTheme = 7; }
+    if (key === '8') { selectedColorTheme = 8; }
+    if (key === '9') { selectedColorTheme = 9; }
+    if (key === '0') { selectedColorTheme = 0; }
 
     return false;
 }
@@ -234,14 +227,14 @@ function showVariables() {
     let varText = '';
     varText += `TIPS\n`;
     varText += `Move the sliders to change the drawing\n`;
-    varText += `Press Space to toggle mouse position as input instead of sliders\n`;
-    varText += `Press F to toggle fluid transitions (only when using mouse position)\n`;
-    varText += `Press R to toggle randomized position\n`;
-    varText += `Press C to toggle small circles\n`;
+    varText += `Press Space to toggle interaction (mouse position)\n`;
+    varText += `Press F to toggle Fluid transitions (only when interaction is on)\n`;
+    varText += `Press R to toggle Randomized position\n`;
+    varText += `Press C to toggle pinheads\n`;
     varText += `Press 0-9 to change color theme\n`;
-    varText += `Press D to toggle dark/light mode\n`;
-    varText += `Press S to save as PNG image\n`;
-    varText += `Press ? to toggle these instructions\n\n`;
+    varText += `Press D to toggle Dark mode\n`;
+    varText += `Press S to Save as PNG image\n`;
+    varText += `Press ? to toggle these help instructions\n\n`;
     varText += `\n`;
     varText += `VARIABLES:\n`;
     varText += `lineRotations ${lineRotations}\n`;
@@ -250,10 +243,10 @@ function showVariables() {
     varText += `lineLength ${lineLength}\n`;
     varText += `lineWeight ${lineWeight}\n`;
     varText += `circleDiam ${circleDiam}\n`;
-    varText += `positionIsRandomized ${positionIsRandomized}\n`;
-    if (positionIsRandomized) {
-        varText += `randomPosition ${randomPositionMax}\n`;
-        varText += `randomAngle ${randomAngleMax}\n`;
+    varText += `isRandomizedLine ${isRandomizedLine}\n`;
+    if (isRandomizedLine) {
+        varText += `randomShiftedPositionMax ${randomShiftedPositionMax}\n`;
+        varText += `randomShiftedAngleMax ${randomShiftedAngleMax}\n`;
     }
     varText += `colorDark ${dark}\n`;
     varText += `colorLight ${light}\n`;
