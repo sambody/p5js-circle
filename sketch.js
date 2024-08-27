@@ -62,7 +62,7 @@ function setup() {
 function draw() {
     randomSeed(0);
     setColors();
-    getDynamicVariables();
+    setDynamicVariables();
 
     fill(lineColor);
     noStroke();
@@ -77,7 +77,7 @@ function draw() {
 }
 
 // Helper functions
-function getDynamicVariables() {
+function setDynamicVariables() {
     if (isInteractive) {
         // Interactive mode: input from mouse X/Y position
         if (isFullRotationPerRound) {
