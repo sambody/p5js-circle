@@ -152,31 +152,32 @@ function getColorsFromTheme() {
     darkColor = colorThemes[selectedColorTheme].dark;
     backgroundColor = isDarkMode ? darkColor : lightColor;
     lineColor = isDarkMode ? lightColor : darkColor;
-
     background(backgroundColor);
 
-    sliderRotations.style('background', lightColor);
-    sliderRotationsFraction.style('background', lightColor);
-    sliderLineLength.style('background', lightColor);
-    sliderLinesCount.style('background', lightColor);
+    let sliderColor = isDarkMode ? lightColor : darkColor;
+    sliderRotations.style('background', sliderColor);
+    sliderRotationsFraction.style('background', sliderColor);
+    sliderLineLength.style('background', sliderColor);
+    sliderLinesCount.style('background', sliderColor);
 }
 
 function drawSliders() {
-    sliderRotations = createSlider(-24, 24, 3);
+    let sliderWidth = '180px';
+    sliderRotations = createSlider(-24, 24, 3); // (min, max, default value, step)
     sliderRotations.position(width - 200, 20);
-    sliderRotations.style('width', '180px');
+    sliderRotations.style('width', sliderWidth);
 
     sliderLineLength = createSlider(1, 600, 150);
     sliderLineLength.position(width - 200, 50);
-    sliderLineLength.style('width', '180px');
+    sliderLineLength.style('width', sliderWidth);
 
     sliderLinesCount = createSlider(12, 800, 200);
     sliderLinesCount.position(width - 200, 80);
-    sliderLinesCount.style('width', '180px');
+    sliderLinesCount.style('width', sliderWidth);
 
     sliderRotationsFraction = createSlider(0, 9, 0, 1);
     sliderRotationsFraction.position(width - 200, 110);
-    sliderRotationsFraction.style('width', '180px');
+    sliderRotationsFraction.style('width', sliderWidth);
 }
 
 // Press a key to change behavior or save (not working in online editor)
@@ -232,21 +233,21 @@ function showVariables() {
     varText += `Press D to toggle Dark mode\n`;
     varText += `Press S to Save as PNG image\n`;
     varText += `Press ? to toggle these help instructions\n\n`;
-    varText += `\n`;
-    varText += `VARIABLES:\n`;
-    varText += `lineRotations ${lineRotations}\n`;
-    varText += `rounds ${rounds}\n`;
-    varText += `lineCount ${lines}\n`;
-    varText += `lineLength ${lineLength}\n`;
-    varText += `lineWeight ${lineWeight}\n`;
-    varText += `circleDiam ${circleDiam}\n`;
-    varText += `isRandomizedLine ${isRandomizedLine}\n`;
-    if (isRandomizedLine) {
-        varText += `randomShiftedPositionMax ${randomShiftedPositionMax}\n`;
-        varText += `randomShiftedAngleMax ${randomShiftedAngleMax}\n`;
-    }
-    varText += `colorDark ${darkColor}\n`;
-    varText += `colorLight ${lightColor}\n`;
+    // varText += `\n`;
+    // varText += `VARIABLES:\n`;
+    // varText += `lineRotations ${lineRotations}\n`;
+    // varText += `rounds ${rounds}\n`;
+    // varText += `lineCount ${lines}\n`;
+    // varText += `lineLength ${lineLength}\n`;
+    // varText += `lineWeight ${lineWeight}\n`;
+    // varText += `circleDiam ${circleDiam}\n`;
+    // varText += `isRandomizedLine ${isRandomizedLine}\n`;
+    // if (isRandomizedLine) {
+    //     varText += `randomShiftedPositionMax ${randomShiftedPositionMax}\n`;
+    //     varText += `randomShiftedAngleMax ${randomShiftedAngleMax}\n`;
+    // }
+    // varText += `colorDark ${darkColor}\n`;
+    // varText += `colorLight ${lightColor}\n`;
     text(varText, 10, 30);
 }
 
