@@ -137,10 +137,10 @@ function drawLines() {
         rotate(TWO_PI / lines * i);
         translate(circleDiam / 2, 0);
         rotate(TWO_PI / lines * lineRotations * i + radians(randomShiftedAngle));
-        line(0 + randomShiftedPosX, 0 + randomShiftedPosY, lineLength + randomShiftedPosX, 0 + randomShiftedPosY);
+        line(randomShiftedPosX, randomShiftedPosY, lineLength + randomShiftedPosX, randomShiftedPosY);
         if (showPinheads) {
             fill(lineColor);
-            circle(lineLength + randomShiftedPosX, 0 + randomShiftedPosY, pinheadDiam);
+            circle(lineLength + randomShiftedPosX, randomShiftedPosY, pinheadDiam);
         }
         pop();
 
