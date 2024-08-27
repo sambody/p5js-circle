@@ -184,6 +184,13 @@ function drawSliders() {
     sliderRotationsFraction.style('width', sliderWidth);
 }
 
+function removeSliders() {
+    sliderRotations.remove();
+    sliderLineLength.remove();
+    sliderLinesCount.remove();
+    sliderRotationsFraction.remove();
+}
+
 // Press a key to change behavior or save (not working in online editor)
 function keyReleased() {
     // Press S to save and download; will add variables to file name
@@ -257,6 +264,7 @@ function showVariables() {
 
 // Redraw when browser window is resized
 function windowResized() {
+    removeSliders();
     setup();
     draw();
 }
